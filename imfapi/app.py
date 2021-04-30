@@ -1,5 +1,4 @@
 from flask import Flask, Blueprint
-from flask.json import jsonify
 from flask_restful import Api
 from werkzeug.exceptions import HTTPException
 from imfapi.resources.health import Health
