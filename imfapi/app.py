@@ -3,12 +3,12 @@ from flask.json import jsonify
 from flask_restful import Api
 from werkzeug.exceptions import HTTPException
 from imfapi.resources.health import Health
-from imfapi.resources.exchange_rate import ExchangeRateFile
+from imfapi.resources.exchange_rate import ExchangeRate
 
 api_bp = Blueprint('api', __name__)
 api = Api(api_bp, catch_all_404s=True)
 app = Flask(__name__)
-app.register_blueprint(api_bp)
+app.register_blueprint(api_bp, url_prefix='/api/v1')
 
 
 @api_bp.errorhandler(Exception)
@@ -23,4 +23,4 @@ def handle_exception(e):
 
 
 api.add_resource(Health, '/health')
-api.add_resource(ExchangeRateFile, '/exchangeRateFile')
+api.add_resource(ExchangeRate, '/exchangeRate')
