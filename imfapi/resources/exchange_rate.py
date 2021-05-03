@@ -1,4 +1,3 @@
-from os import sendfile
 from flask_restful import Resource
 import requests
 from werkzeug.wrappers import Response

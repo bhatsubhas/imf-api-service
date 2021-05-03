@@ -10,7 +10,7 @@ def client():
 
 def test_health_endpoint(client):
     '''
-    Check if the serivce has health endpoint. 
+    Check if the serivce has health endpoint.
 
     This endpoint checks if service is running healthy or not
     '''
@@ -22,9 +22,9 @@ def test_health_endpoint(client):
 
 def test_exchangeRate_endpoint(client):
     '''
-    Check if the service has exchangeRate endpoint. 
+    Check if the service has exchangeRate endpoint.
 
-    This endpoint checks if service returns proper data from IMF Exchane Rate Endpoing
+    Endpoint checks if service returns proper data from IMF Website.
     '''
     resp = client.get('/api/v1/exchangeRate')
     assert 200 == resp.status_code
@@ -39,4 +39,4 @@ def test_404_error(client):
     resp = client.get('/api/v1/unknownResource')
     json_data = resp.get_json()
     assert 404 == resp.status_code
-    assert 'The requested URL was not found on the server.' in json_data['message']
+    assert 'URL was not found on the server.' in json_data['message']

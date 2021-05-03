@@ -11,7 +11,7 @@ app.register_blueprint(api_bp, url_prefix='/api/v1')
 
 
 @api_bp.errorhandler(Exception)
-def handle_exception(e): # pragma: no cover
+def handle_exception(e):  # pragma: no cover
     api_bp.logger.error(e)
     if isinstance(e, HTTPException):
         return e
