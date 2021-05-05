@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 import pytest
 from imfapi.app import app
 
@@ -56,7 +56,7 @@ def test_exchangeRate_monthly_last_month_date(client):
     Endpoint checks if service returns proper data form IMF Website.
     """
     current_date = datetime.today()
-    previous_month_date = datetime.date(
+    previous_month_date = date(
         current_date.year, current_date.month - 1, 1)
     previous_month_year = previous_month_date.strftime("%B %Y")
 
