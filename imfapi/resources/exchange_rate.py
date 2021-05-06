@@ -1,4 +1,4 @@
-from flask_restful import Resource
+from flask_restx import Resource
 import requests
 from werkzeug.wrappers import Response
 

@@ -1,5 +1,5 @@
 from flask import Flask, Blueprint
-from flask_restful import Api
+from flask_restx import Api
 from werkzeug.exceptions import HTTPException
 from imfapi.resources.health import Health
 from imfapi.resources.exchange_rate import LastFiveDaysExchangeRate
