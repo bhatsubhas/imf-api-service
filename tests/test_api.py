@@ -2,6 +2,8 @@ from datetime import datetime, date
 import pytest
 from imfapi.app import app
 
+URL_PREFIX = "/api/v1/exchangeRate"
+
 
 @pytest.fixture
 def client():
@@ -15,7 +17,7 @@ def test_health_endpoint(client):
 
     This endpoint checks if service is running healthy or not
     """
-    resp = client.get("/api/v1/health")
+    resp = client.get(f"{URL_PREFIX}/health")
     json_data = resp.get_json()
     assert 200 == resp.status_code
     assert "Service status is healthy" in json_data["message"]
@@ -27,7 +29,7 @@ def test_exchangeRate_lastFiveDays(client):
 
     Endpoint checks if service returns proper data from IMF Website.
     """
-    resp = client.get("/api/v1/exchangeRate/lastFiveDays")
+    resp = client.get(f"{URL_PREFIX}/lastFiveDays")
     assert 200 == resp.status_code
     assert b"last five days" in resp.data
 
@@ -42,7 +44,7 @@ def test_exchangeRate_monthly_current_date(client):
     select_date = current_date.strftime("%Y-%m-%d")
     month_year = current_date.strftime("%B %Y")
 
-    resp = client.get(f"/api/v1/exchangeRate/monthly/{select_date}")
+    resp = client.get(f"{URL_PREFIX}/monthly/{select_date}")
     assert 200 == resp.status_code
 
     expected = bytes(f"SDRs per Currency unit for {month_year}", "utf-8")
@@ -60,7 +62,7 @@ def test_exchangeRate_monthly_last_month_date(client):
         current_date.year, current_date.month - 1, 1)
     previous_month_year = previous_month_date.strftime("%B %Y")
 
-    resp = client.get(f"/api/v1/exchangeRate/monthly/{previous_month_date}")
+    resp = client.get(f"{URL_PREFIX}/monthly/{previous_month_date}")
     assert 200 == resp.status_code
 
     message = f"SDRs per Currency unit for {previous_month_year}"
@@ -74,10 +76,10 @@ def test_exchangeRate_monthly_no_date(client):
 
     Endpoint checks if service returns proper data form IMF Website.
     """
-    resp = client.get("/api/v1/exchangeRate/monthly")
-    json_data = resp.get_json()
+    resp = client.get(f"{URL_PREFIX}/monthly")
     assert 404 == resp.status_code
-    assert "URL was not found on the server." in json_data["message"]
+    json_data = resp.get_json()
+    assert "Resource not found" in json_data["Error"]
 
 
 def test_404_error(client):
@@ -85,6 +87,6 @@ def test_404_error(client):
     Check if service throws 404 error when unknown resource is requested.
     """
     resp = client.get("/api/v1/unknownResource")
-    json_data = resp.get_json()
     assert 404 == resp.status_code
-    assert "URL was not found on the server." in json_data["message"]
+    json_data = resp.get_json()
+    assert "Resource not found" in json_data["Error"]
