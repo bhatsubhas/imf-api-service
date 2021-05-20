@@ -1,6 +1,6 @@
-from . import api
+from . import imf_api
 
 
-@api.route("/health")
+@imf_api.route("/health")
 def get_health():
     return {"message": "Service status is healthy"}, 200

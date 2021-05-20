@@ -1,14 +1,7 @@
 from datetime import datetime, date
-import pytest
-from imfapi.app import app
+from . import client
 
 URL_PREFIX = "/api/v1/exchangeRate"
-
-
-@pytest.fixture
-def client():
-    with app.test_client() as client:
-        yield client
 
 
 def test_health_endpoint(client):

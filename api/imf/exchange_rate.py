@@ -1,18 +1,18 @@
 import requests
 from werkzeug.wrappers import Response
-from . import api
+from . import imf_api
 
 BASE_URL = "https://www.imf.org/external/np/fin/data/"
 
 
-@api.route("/lastFiveDays")
+@imf_api.route("/lastFiveDays")
 def get_last_five_days():
     endpoint_url = BASE_URL + "rms_five.aspx"
     resp = requests.get(endpoint_url, [("tsvflag", "Y")])
     return Response(resp, status=200)
 
 
-@api.route("/monthly/<string:select_date>")
+@imf_api.route("/monthly/<string:select_date>")
 def get_monthly(select_date):
     endpoint_url = BASE_URL + "rms_mth.aspx"
     params = [
