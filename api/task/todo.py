@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, request
 from . import task_api
 
 todos = [
@@ -47,3 +47,31 @@ def delete_one_todo(id):
         return {
             "error": f"Could not find todo with id - {id}"
         }, 404
+
+
+@task_api.route("/todo", methods=["POST"])
+def create_todo():
+    json_data = request.get_json()
+    try:
+        if json_data is None:
+            raise KeyError
+        task = json_data["task"]
+        is_pending = json_data["is_pending"]
+        if is_pending not in ("Yes", "No"):
+            raise ValueError
+        todos.append({
+            "task": task,
+            "is_pending": is_pending
+        })
+    except ValueError:
+        return {
+            "error": "Invalid options for field is_pending"
+        }, 400
+    except KeyError:
+        return {
+            "error": "Missing mandatory field"
+        }, 400
+
+    return jsonify(
+        {"message": "Successfully created the todo"}
+    ), 201
