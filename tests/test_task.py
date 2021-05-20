@@ -1,4 +1,3 @@
-from flask import json
 from . import client
 
 URL_PREFIX = "/api/v1/task"
