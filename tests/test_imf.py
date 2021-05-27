@@ -4,18 +4,6 @@ from . import client
 URL_PREFIX = "/api/v1/exchangeRate"
 
 
-def test_health_endpoint(client):
-    """
-    Check if the serivce has health endpoint.
-
-    This endpoint checks if service is running healthy or not
-    """
-    resp = client.get(f"{URL_PREFIX}/health")
-    json_data = resp.get_json()
-    assert 200 == resp.status_code
-    assert "Service status is healthy" in json_data["message"]
-
-
 def test_exchangeRate_lastFiveDays(client):
     """
     Check if endpoint to get last five days exchange rates is available.
@@ -70,16 +58,6 @@ def test_exchangeRate_monthly_no_date(client):
     Endpoint checks if service returns proper data form IMF Website.
     """
     resp = client.get(f"{URL_PREFIX}/monthly")
-    assert 404 == resp.status_code
-    json_data = resp.get_json()
-    assert "Resource not found" in json_data["Error"]
-
-
-def test_404_error(client):
-    """
-    Check if service throws 404 error when unknown resource is requested.
-    """
-    resp = client.get("/api/v1/unknownResource")
     assert 404 == resp.status_code
     json_data = resp.get_json()
     assert "Resource not found" in json_data["Error"]

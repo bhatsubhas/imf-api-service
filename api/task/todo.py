@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify, request, current_app
 from . import task_api
 
 todos = [
@@ -13,12 +13,12 @@ todos = [
 ]
 
 
-@task_api.route("/todo")
+@task_api.get("/todo")
 def get_all():
     return jsonify({"todos": todos}), 200
 
 
-@task_api.route("/todo/<int:id>")
+@task_api.get("/todo/<int:id>")
 def get_one_todo(id):
     try:
         if id <= 0:
@@ -31,7 +31,7 @@ def get_one_todo(id):
     return jsonify(todo), 200
 
 
-@task_api.route("/todo/<int:id>", methods=["DELETE"])
+@task_api.delete("/todo/<int:id>")
 def delete_one_todo(id):
     try:
         if id <= 0:
@@ -49,9 +49,10 @@ def delete_one_todo(id):
         }, 404
 
 
-@task_api.route("/todo", methods=["POST"])
+@task_api.post("/todo")
 def create_todo():
     json_data = request.get_json()
+    current_app.logger.debug(f"Request Data: {json_data}")
     try:
         if json_data is None:
             raise KeyError
