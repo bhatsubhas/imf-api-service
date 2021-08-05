@@ -116,7 +116,7 @@ def test_create_invalid_data(client):
     })
     assert 400 == resp.status_code
     json_data = resp.get_json()
-    assert "Missing mandatory field" in json_data["error"]
+    assert "Incorrect input format" in json_data["error"]
 
 
 def test_create_invalid_pending_status(client):
@@ -130,4 +130,4 @@ def test_create_invalid_pending_status(client):
     })
     assert 400 == resp.status_code
     json_data = resp.get_json()
-    assert "Invalid options for field is_pending" in json_data["error"]
+    assert "Incorrect input format" in json_data["error"]
