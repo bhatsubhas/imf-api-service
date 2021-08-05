@@ -1,7 +1,9 @@
 # API Services
 
 ## IMF Endpoints
-A simple Web Service which wraps IMF Exchange Rate Web Service which downloads last 5 days exchange rates for major currencies or a given months exchange rates.
+A simple Web Service which wraps IMF Exchange Rate Web endpoint to download:
+* Last 5 days exchange rates for major currencies
+* Get exchange rates for all the published dates in a given month
 
 **REST URL Prefix - /api/v1/exchangeRate**
 
@@ -22,3 +24,4 @@ A simple Web Service which keeps track of todo tasks.
 
 ## Health Check Endpoint
 * GET **/health** - to check the health of the service
+
