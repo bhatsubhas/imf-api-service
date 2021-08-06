@@ -12,6 +12,7 @@ def test_get_all_todos(client):
     json_data = resp.get_json()
     assert isinstance(json_data["todos"], list)
 
+
 def test_get_all_pending_todos(client):
     """
     Test if endpoint to get all the pending todos.
@@ -23,6 +24,7 @@ def test_get_all_pending_todos(client):
     for todo in pending_todos:
         assert todo["is_pending"] == "Yes"
 
+
 def test_get_all_completed_todos(client):
     """
     Test if endpoint to get all the pending todos.
@@ -33,6 +35,7 @@ def test_get_all_completed_todos(client):
     assert isinstance(pending_todos, list)
     for todo in pending_todos:
         assert todo["is_pending"] == "No"
+
 
 def test_get_single_todo(client):
     """
