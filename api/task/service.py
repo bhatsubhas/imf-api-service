@@ -10,7 +10,9 @@ todos = [
 ]
 
 
-def get_all_todos():
+def get_all_todos(is_pending=None):
+    if is_pending:
+        return {"todos": [todo for todo in todos if todo["is_pending"] == is_pending]}
     return {"todos": todos}
 
 
