@@ -1,5 +1,6 @@
+SHELL := /bin/bash
 init:
-	pip install -r requirements/dev.txt
+	pip install -r requirements.txt
 common:
 	flake8 api/__init__.py api/app.py
 	flake8 tests/test_common.py
@@ -22,5 +23,9 @@ clean:
 	rm -rf .pytest_cache
 	rm -rf htmlcov
 	rm .coverage
+start_dev:
+	source ./venv/bin/activate && export FLASK_APP=api.app && export FLASK_ENV=development && flask run
+start:
+	source ./venv/bin/activate && gunicorn api.app:app
 all: init coverage
 
