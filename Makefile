@@ -1,4 +1,7 @@
 SHELL := /bin/bash
+image_name = imf-api
+image_tag = 1.0.0
+
 init:
 	pip install -r requirements.txt
 common:
@@ -27,5 +30,13 @@ start_dev:
 	source ./venv/bin/activate && export FLASK_APP=api.app && export FLASK_ENV=development && flask run
 start:
 	source ./venv/bin/activate && gunicorn api.app:app
+build:
+	docker image build -t $(image_name):$(image_tag) .
+run:
+	docker container run -d --rm -p 9080:9080 --name $(image_name) $(image_name):$(image_tag)
+logs:
+	docker container logs -f $(image_name)
+stop:
+	docker container stop $(image_name)
 all: init coverage
 
