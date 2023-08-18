@@ -47,3 +47,4 @@ def create_todo(json_data):
         "task": task,
         "is_pending": is_pending
     })
+    return len(todos)

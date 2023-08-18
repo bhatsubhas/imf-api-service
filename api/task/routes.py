@@ -42,12 +42,12 @@ def create():
             "error": "Missing mandatory fields"
         }, 400
     try:
-        create_todo(json_data)
+        tsk_id = create_todo(json_data)
     except (ValueError, KeyError):
         return {
             "error": "Incorrect input format"
         }, 400
 
     return jsonify(
-        {"message": "Successfully created the todo"}
+        {"message": f"Successfully created the todo with id - {tsk_id}"}
     ), 201
