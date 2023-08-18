@@ -37,10 +37,6 @@ def delete(tsk_id):
 def create():
     json_data = request.get_json()
     current_app.logger.debug(f"Request Data: {json_data}")
-    if json_data is None:
-        return {
-            "error": "Missing mandatory fields"
-        }, 400
     try:
         tsk_id = create_todo(json_data)
     except (ValueError, KeyError):

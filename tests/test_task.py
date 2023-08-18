@@ -123,10 +123,21 @@ def test_create_no_data(client):
     To test how service responds when no data is provided
     for todo item creation.
     """
-    resp = client.post(f"{URL_PREFIX}/todo")
+    resp = client.post(f"{URL_PREFIX}/todo", json={})
     assert 400 == resp.status_code
     json_data = resp.get_json()
-    assert "Missing mandatory field" in json_data["error"]
+    assert "Incorrect input format" in json_data["error"]
+
+
+def test_create_using_non_json_data(client):
+    """
+    To test how service responds when no data is provided
+    for todo item creation.
+    """
+    resp = client.post(f"{URL_PREFIX}/todo", data="test")
+    assert 415 == resp.status_code
+    json_data = resp.get_json()
+    assert "Unsupported Media Type" in json_data["Error"]
 
 
 def test_create_invalid_data(client):
