@@ -9,7 +9,7 @@ COPY requirements requirements
 COPY requirements.txt requirements.txt
 RUN /venv/bin/pip install --disable-pip-version-check -r /requirements.txt
 
-FROM gcr.io/distroless/python3-debian11
+FROM gcr.io/distroless/python3-debian11:nonroot
 COPY --from=build-env /venv /venv
 WORKDIR /app
 COPY gunicorn.conf.py .
