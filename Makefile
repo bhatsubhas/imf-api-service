@@ -32,6 +32,10 @@ start:
 	source ./venv/bin/activate && gunicorn api.app:app
 build:
 	docker image build -t $(image_name):$(image_tag) .
+analyze:
+	dive $(image_name):$(image_tag)
+scan:
+	trivy image --exit-code 1 --severity CRITICAL,HIGH $(image_name):$(image_tag)
 run:
 	docker container run -d --rm -p 9080:9080 --name $(image_name) $(image_name):$(image_tag)
 logs:
