@@ -1,6 +1,8 @@
 SHELL := /bin/bash
 image_name = imf-api
 image_tag = 1.0.0
+dive = docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive
+trivy = docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy
 
 init:
 	pip install -r requirements.txt
@@ -33,9 +35,9 @@ start:
 build:
 	docker image build -t $(image_name):$(image_tag) .
 analyze:
-	dive $(image_name):$(image_tag)
+	$(dive) $(image_name):$(image_tag)
 scan:
-	trivy image --exit-code 1 --severity CRITICAL,HIGH $(image_name):$(image_tag)
+	$(trivy) image --exit-code 1 --severity CRITICAL,HIGH $(image_name):$(image_tag)
 run:
 	docker container run -d --rm -p 9080:9080 --name $(image_name) $(image_name):$(image_tag)
 logs:
