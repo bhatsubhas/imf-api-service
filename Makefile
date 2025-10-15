@@ -5,7 +5,7 @@ dive = docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wagoodm
 trivy = docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy
 
 init:
-	pip install -r requirements.txt
+	venv/bin/pip install -r requirements.txt
 common:
 	flake8 api/__init__.py api/app.py
 	flake8 tests/test_common.py
@@ -27,7 +27,7 @@ clean:
 	rm -rf __pycache__
 	rm -rf .pytest_cache
 	rm -rf htmlcov
-	rm .coverage
+	rm .coverage bom.json payload.json
 start_dev:
 	source ./venv/bin/activate && export FLASK_APP=api.app && export FLASK_ENV=development && flask run
 start:
@@ -40,6 +40,8 @@ scan:
 	$(trivy) image --exit-code 1 --severity CRITICAL,HIGH $(image_name):$(image_tag)
 run:
 	docker container run -d --rm -p 9080:9080 --name $(image_name) $(image_name):$(image_tag)
+push_sbom:
+	./push_sbom.sh
 logs:
 	docker container logs -f $(image_name)
 stop:
