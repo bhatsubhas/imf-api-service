@@ -1,5 +1,11 @@
 #!/usr/bin/bash
 
+if [ -z "$DTRACK_SERVER" ]
+then
+    echo "DTRACK_SERVER environment variable not set"
+    exit 1
+fi
+
 if [ -z "$PROJECT_ID" ]
 then
     echo "PROJECT_ID environment variable not set"
@@ -29,7 +35,7 @@ EOF
 echo "Created new payload.json"
 
 echo "Pushing the sbom to Dependency tracker"
-curl -s -X "PUT" "http://localhost:8081/api/v1/bom" \
+curl -s -X "PUT" "http://${DTRACK_SERVER}/api/v1/bom" \
      -H "Content-Type: application/json" \
      -H "X-Api-Key: $API_KEY" \
      -d @payload.json && echo ""
