@@ -1,37 +1,33 @@
 SHELL := /bin/bash
+base = venv/bin
 image_name = imf-api
 image_tag = 1.0.0
 dive = docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive
 trivy = docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy
 
 init:
-	venv/bin/pip install -r requirements.txt
+	$(base)/pip install -r requirements/dev.txt
 common:
-	flake8 api/__init__.py api/app.py
-	flake8 tests/test_common.py
-	pytest -vvv tests/test_common.py
+	$(base)/flake8 api/__init__.py api/app.py
+	$(base)/flake8 tests/test_common.py
+	$(base)/pytest -vvv tests/test_common.py
 imf: common
-	flake8 api/imf
-	flake8 tests/test_imf.py
-	pytest -vvv tests/test_imf.py
-task: common
-	flake8 api/task
-	flake8 tests/test_task.py
-	pytest -vvv tests/test_task.py
+	$(base)/flake8 api/imf
+	$(base)/flake8 tests/test_imf.py
+	$(base)/flake8 tests/test_task.py
+	$(base)/pytest -vvv tests/test_task.py
 coverage:
-	flake8
-	coverage run -m pytest -vvv
-	coverage report
-	coverage html
+	$(base)/flake8
+	$(base)/coverage run -m pytest -vvv
+	$(base)/coverage report
+	$(base)/coverage html
 clean:
-	rm -rf __pycache__
-	rm -rf .pytest_cache
-	rm -rf htmlcov
-	rm .coverage bom.json payload.json
+	rm -rf __pycache__/ .pytest_cache/ htmlcov/
+	rm .coverage bom.json payload.json > /dev/null 2>&1 || echo ""
 start_dev:
-	source ./venv/bin/activate && export FLASK_APP=api.app && export FLASK_ENV=development && flask run
+	export FLASK_APP=api.app && export FLASK_ENV=development && $(base)/flask run
 start:
-	source ./venv/bin/activate && gunicorn api.app:app
+	$(base)/gunicorn api.app:app
 build:
 	docker image build -t $(image_name):$(image_tag) .
 analyze:
