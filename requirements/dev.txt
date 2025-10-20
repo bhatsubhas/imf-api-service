@@ -3,3 +3,4 @@ pytest==8.4.1
 coverage==7.10.2
 flake8==7.3.0
 autopep8==2.3.2
+cyclonedx-bom==7.2.0
