@@ -1,5 +1,8 @@
 #!/usr/bin/bash
 
+venv/bin/cyclonedx-py venv ./venv/ > bom.json
+echo "Generated bom.json file"
+
 if [ -z "$DTRACK_SERVER" ]
 then
     echo "DTRACK_SERVER environment variable not set"
@@ -21,11 +24,9 @@ fi
 if [ -e payload.json ]
 then
     rm -f payload.json
-    echo "Deleted existing payload.json"
+    echo "Cleanup existing payload.json"
 fi
 
-cyclonedx-py venv ./venv/ > bom.json
-echo "Generated bom.json file"
 cat << EOF > payload.json
 {
    "project": "$PROJECT_ID",
