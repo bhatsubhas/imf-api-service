@@ -22,8 +22,10 @@ coverage:
 	$(base)/coverage report
 	$(base)/coverage html
 clean:
-	rm -rf __pycache__/ .pytest_cache/ htmlcov/
-	rm .coverage bom.json payload.json > /dev/null 2>&1 || echo ""
+	rm -rf htmlcov/ .pytest_cache/ .coverage bom.json payload.json 2>/dev/null || true
+	find . -name '__pycache__' -exec rm -rf {} +
+	find . -name '*.pyc' -exec rm -f {} +
+	find . -name '*.pyo' -exec rm -f {} +
 start_dev:
 	export FLASK_APP=api.app && export FLASK_ENV=development && $(base)/flask run
 start:
