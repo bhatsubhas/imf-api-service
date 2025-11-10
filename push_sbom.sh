@@ -35,7 +35,7 @@ cat << EOF > payload.json
 EOF
 echo "Created new payload.json"
 
-echo "Pushing the sbom to Dependency tracker"
+echo "🛸 Pushing the sbom to Dependency tracker"
 curl -s -X "PUT" "http://${DTRACK_SERVER}/api/v1/bom" \
      -H "Content-Type: application/json" \
      -H "X-Api-Key: $API_KEY" \
@@ -43,7 +43,7 @@ curl -s -X "PUT" "http://${DTRACK_SERVER}/api/v1/bom" \
 
 if [ $? -gt 0 ]
 then
-    echo "Could not push sbom"
+    echo "❌ Could not push sbom"
     exit 1
 fi
-echo "Pushed the sbom to Dependency tracker"
+echo "✅ Pushed the sbom to Dependency tracker"
