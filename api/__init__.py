@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from api.imf.routes import imf_api
 from api.task.routes import task_api
 from api.handlers import (
@@ -18,6 +18,8 @@ def create_app():
 
     @app.get("/health")
     def get_health():
-        return {"message": "Service status is healthy"}, 200
+        return jsonify({
+            "message": "Service status is healthy"
+        }), 200
 
     return app
