@@ -1,5 +1,4 @@
 from datetime import datetime, date
-from . import client
 
 URL_PREFIX = "/api/v1/exchangeRate"
 
@@ -60,4 +59,4 @@ def test_exchangeRate_monthly_no_date(client):
     resp = client.get(f"{URL_PREFIX}/monthly")
     assert 404 == resp.status_code
     json_data = resp.get_json()
-    assert "Resource not found" in json_data["Error"]
+    assert "Resource not found" in json_data["error"]

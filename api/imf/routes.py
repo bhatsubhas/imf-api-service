@@ -1,8 +1,10 @@
 from werkzeug.wrappers import Response
-from . import imf_api
-from .service import get_last_five_days_rate, get_monthwise_rate
+from flask import Blueprint
+from api.imf.service import get_last_five_days_rate, get_monthwise_rate
 
 BASE_URL = "https://www.imf.org/external/np/fin/data/"
+
+imf_api = Blueprint("imf", __name__, url_prefix="/api/v1/exchangeRate")
 
 
 @imf_api.get("/lastFiveDays")

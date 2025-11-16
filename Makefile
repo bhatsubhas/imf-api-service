@@ -7,19 +7,14 @@ trivy = docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock aquase
 
 init:
 	$(base)/pip install -r requirements/dev.txt
-common:
-	$(base)/flake8 api/__init__.py api/app.py
-	$(base)/flake8 tests/test_common.py
-	$(base)/pytest -vvv tests/test_common.py
-imf: common
-	$(base)/flake8 api/imf
-	$(base)/flake8 tests/test_imf.py
-	$(base)/flake8 tests/test_task.py
-	$(base)/pytest -vvv tests/test_task.py
-coverage:
+lint:
 	$(base)/flake8
+test:lint
+	$(base)/pytest -vvv
+coverage:lint
 	$(base)/coverage run -m pytest -vvv
 	$(base)/coverage report
+report: coverage
 	$(base)/coverage html
 clean:
 	rm -rf htmlcov/ .pytest_cache/ .coverage bom.json payload.json 2>/dev/null || true
@@ -27,9 +22,9 @@ clean:
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
 start_dev:
-	export FLASK_APP=api.app && export FLASK_ENV=development && $(base)/flask run
+	$(base)/flask --app api run --debug
 start:
-	$(base)/gunicorn api.app:app
+	$(base)/gunicorn run:app
 build:
 	docker image build -t $(image_name):$(image_tag) .
 analyze:

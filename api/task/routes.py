@@ -1,6 +1,9 @@
-from flask import jsonify, request, current_app
-from . import task_api
-from .service import get_all_todos, get_todo, delete_todo, create_todo
+from flask import Blueprint, jsonify, request, current_app
+from api.task.service import (
+    get_all_todos, get_todo, delete_todo, create_todo
+)
+
+task_api = Blueprint("task", __name__, url_prefix="/api/v1/task")
 
 
 @task_api.get("/todo")

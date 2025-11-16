@@ -1,5 +1,3 @@
-from . import client
-
 URL_PREFIX = "/api/v1/task"
 
 
@@ -137,7 +135,7 @@ def test_create_using_non_json_data(client):
     resp = client.post(f"{URL_PREFIX}/todo", data="test")
     assert 415 == resp.status_code
     json_data = resp.get_json()
-    assert "Unsupported Media Type" in json_data["Error"]
+    assert "Unsupported Media Type" in json_data["error"]
 
 
 def test_create_invalid_data(client):
