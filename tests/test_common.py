@@ -1,6 +1,3 @@
-from . import client
-
-
 def test_health_endpoint(client):
     """
     Check if the serivce has health endpoint.
@@ -20,4 +17,4 @@ def test_404_error(client):
     resp = client.get("/api/v1/unknownResource")
     assert 404 == resp.status_code
     json_data = resp.get_json()
-    assert "Resource not found" in json_data["Error"]
+    assert "Resource not found" in json_data["error"]
