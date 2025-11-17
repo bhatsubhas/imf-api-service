@@ -1,6 +1,7 @@
-ARG NONROOT_IMAGE=gcr.io/distroless/python3-debian12@sha256:fdb3a044d46989e59648dae450d09cd76560013c12947ee4102a416e39621fb9
+ARG DEBIAN_12_IMAGE=debian@sha256:936abff852736f951dab72d91a1b6337cf04217b2a77a5eaadc7c0f2f1ec1758
+ARG NONROOT_IMAGE=gcr.io/distroless/python3-debian12@sha256:1a7c3d2445f783c51be174c8913624dc5bea2cd7ff1f94b9a229a16f0e40fa34
 
-FROM debian:12-slim AS build
+FROM ${DEBIAN_12_IMAGE} AS build
 RUN apt-get update && \
     apt-get install --no-install-suggests --no-install-recommends --yes python3-venv gcc libpython3-dev && \
     python3 -m venv /venv && \
