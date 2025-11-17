@@ -14,6 +14,6 @@ RUN /venv/bin/pip install --disable-pip-version-check -r /requirements.txt
 FROM ${NONROOT_IMAGE}
 COPY --from=build-env /venv /venv
 WORKDIR /app
-COPY gunicorn.conf.py .
+COPY gunicorn.conf.py run.py .
 COPY api api/
-ENTRYPOINT [ "/venv/bin/gunicorn", "api.app:app" ]
+ENTRYPOINT [ "/venv/bin/gunicorn", "run:app" ]
